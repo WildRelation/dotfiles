@@ -74,6 +74,7 @@ link .config/fastfetch/config.jsonc
 link .config/gtk-3.0/settings.ini
 link .config/gtk-4.0/settings.ini
 link .icons/default/index.theme
+link .config/fsh/catppuccin.ini
 
 # Scripts
 cp "$DOTFILES/.local/bin/conky-weather.sh" ~/.local/bin/
@@ -111,6 +112,23 @@ curl -sL "$BASE/os/various-arch-1-4k.png"            -o ~/Pictures/wallpapers/ni
 curl -sL "$BASE/os/various-arch-2-4k.png"            -o ~/Pictures/wallpapers/night/various-arch-2-4k.png
 curl -sL "$BASE/waves/cat-waves.png"                 -o ~/Pictures/wallpapers/night/cat-waves.png
 curl -sL "$BASE/minimalistic/dark-cat.png"           -o ~/Pictures/wallpapers/night/dark-cat.png
+
+echo "==> Applying system configs (requires sudo)..."
+sudo cp "$DOTFILES/etc/X11/xorg.conf.d/30-touchpad.conf" /etc/X11/xorg.conf.d/
+echo "  Touchpad config applied"
+
+echo "==> Enabling system services..."
+sudo systemctl enable --now auto-cpufreq 2>/dev/null && echo "  auto-cpufreq enabled" || echo "  [!] auto-cpufreq service not found"
+sudo systemctl enable bluetooth 2>/dev/null && echo "  Bluetooth enabled" || echo "  [!] Bluetooth service not found"
+
+echo "==> Applying gsettings..."
+gsettings set org.gnome.desktop.interface gtk-theme "catppuccin-mocha-blue-standard+default"
+gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+gsettings set org.gnome.desktop.interface font-name "JetBrainsMono Nerd Font 10"
+gsettings set org.gnome.desktop.interface monospace-font-name "JetBrainsMono Nerd Font 10"
+gsettings set org.gnome.desktop.interface cursor-theme "catppuccin-mocha-blue-cursors"
+gsettings set org.gnome.desktop.interface cursor-size 24
+gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
 
 echo "==> Setting zsh as default shell..."
 chsh -s /usr/bin/zsh
