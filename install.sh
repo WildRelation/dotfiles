@@ -5,7 +5,7 @@
 #   Arch Linux + AwesomeWM + Catppuccin Mocha
 # ============================================
 
-set -e
+set +e  # no parar en errores individuales
 DOTFILES="$(cd "$(dirname "$0")" && pwd)"
 
 echo "==> Installing packages..."
@@ -26,10 +26,8 @@ sudo pacman -S --needed --noconfirm \
     archlinux-wallpaper \
     blueman udiskie \
     timeshift \
-    auto-cpufreq \
-    betterlockscreen \
     brightnessctl \
-    checkupdates+aur \
+    pacman-contrib \
     python \
     curl
 
@@ -40,7 +38,10 @@ if command -v yay &>/dev/null; then
         lain-git \
         catppuccin-gtk-theme-mocha \
         catppuccin-cursors-mocha \
-        greenclip
+        greenclip \
+        auto-cpufreq \
+        betterlockscreen \
+        checkupdates+aur
 else
     echo "  [!] yay not found. Install yay first then run:"
     echo "      yay -S fast-syntax-highlighting lain-git catppuccin-gtk-theme-mocha catppuccin-cursors-mocha greenclip"
