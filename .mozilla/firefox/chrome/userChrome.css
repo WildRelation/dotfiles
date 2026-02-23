@@ -1,0 +1,106 @@
+/* === Catppuccin Mocha - Firefox userChrome === */
+
+/* Fuente en barra de dirección y tabs */
+#urlbar-input,
+.tab-label,
+#urlbar *,
+.searchbar-textbox {
+    font-family: "JetBrainsMono Nerd Font", monospace !important;
+    font-size: 14px !important;
+}
+
+:root {
+    --ctp-base:    #1e1e2e;
+    --ctp-mantle:  #181825;
+    --ctp-crust:   #11111b;
+    --ctp-surface0:#313244;
+    --ctp-surface1:#45475a;
+    --ctp-overlay0:#6c7086;
+    --ctp-text:    #cdd6f4;
+    --ctp-blue:    #89b4fa;
+    --ctp-mauve:   #cba6f7;
+    --ctp-red:     #f38ba8;
+    --ctp-green:   #a6e3a1;
+}
+
+/* Barra de navegación */
+#navigator-toolbox {
+    background-color: var(--ctp-mantle) !important;
+    border-bottom: 1px solid var(--ctp-surface0) !important;
+}
+
+/* Barra de tabs */
+#TabsToolbar {
+    background-color: var(--ctp-crust) !important;
+}
+
+/* Tab activo */
+.tab-background[selected] {
+    background-color: var(--ctp-base) !important;
+}
+
+/* Tabs inactivos */
+.tab-background:not([selected]) {
+    background-color: transparent !important;
+}
+
+/* Texto de tabs */
+.tab-label {
+    color: var(--ctp-text) !important;
+}
+
+.tab-label:not([selected]) {
+    color: var(--ctp-overlay0) !important;
+}
+
+/* Barra de dirección */
+#urlbar-background {
+    background-color: var(--ctp-surface0) !important;
+    border: 1px solid var(--ctp-surface1) !important;
+    border-radius: 8px !important;
+}
+
+#urlbar:focus-within > #urlbar-background {
+    border-color: var(--ctp-blue) !important;
+    box-shadow: 0 0 0 1px var(--ctp-blue) !important;
+}
+
+#urlbar-input {
+    color: var(--ctp-text) !important;
+}
+
+/* Botones de navegación */
+#back-button,
+#forward-button,
+#reload-button,
+#home-button {
+    color: var(--ctp-overlay0) !important;
+}
+
+#back-button:hover,
+#forward-button:hover,
+#reload-button:hover,
+#home-button:hover {
+    color: var(--ctp-text) !important;
+}
+
+/* Barra de bookmarks */
+#PersonalToolbar {
+    background-color: var(--ctp-mantle) !important;
+    border-bottom: 1px solid var(--ctp-surface0) !important;
+}
+
+/* Scrollbar delgada */
+scrollbar {
+    width: 6px !important;
+    height: 6px !important;
+}
+
+scrollbar thumb {
+    background-color: var(--ctp-surface1) !important;
+    border-radius: 4px !important;
+}
+
+scrollbar thumb:hover {
+    background-color: var(--ctp-overlay0) !important;
+}

@@ -1,0 +1,27 @@
+# === Catppuccin Mocha - Minimalista ===
+
+[directory]
+style = "fg:#89b4fa"
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = " "
+style = "fg:#cba6f7"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "fg:#f38ba8"
+format = "([$all_status$ahead_behind]($style) )"
+
+[character]
+success_symbol = "[❯](fg:#a6e3a1)"
+error_symbol = "[❯](fg:#f38ba8)"
+
+[cmd_duration]
+style = "fg:#f9e2af"
+format = "[$duration]($style) "
+min_time = 3000
+
+[battery]
+disabled = true

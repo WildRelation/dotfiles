@@ -1,0 +1,8 @@
+/* Fuente monospace para código en páginas web */
+:root {
+    --monospace-font: "JetBrainsMono Nerd Font", monospace !important;
+}
+
+code, pre, kbd, samp, tt {
+    font-family: "JetBrainsMono Nerd Font", monospace !important;
+}
