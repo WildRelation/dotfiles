@@ -3,7 +3,7 @@ local themes_path = os.getenv("HOME") .. "/.config/awesome/themes/default/"
 local gears = require("gears")
 local theme = {}
 
-theme.font          = "sans 10"
+theme.font          = "JetBrainsMono Nerd Font 10"
 
 -- Catppuccin Mocha
 theme.bg_normal     = "#1e1e2ecc"  -- base con transparencia

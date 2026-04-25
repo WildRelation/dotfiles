@@ -492,7 +492,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Each screen has its own tag table.
 
-    local names = { " 1:term ", " 2:web ", " 3:code ", " 4:univ ", " 5:chat ", " 6:files ", " 7:media " }
+    local names = { " term ", " web ", " code ", " univ ", " chat ", " files ", " media " }
 
     local l = awful.layout.suit 
 
@@ -547,60 +547,58 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
 
--- 1. PRIMERO CREAMOS LA BARRA (Aquí es donde quitas el azul)
+    -- Wibar flotante usando wibox directo
+    local bar_height = 36
+    local bar_margin = 8
 
-    -- Crea la barra con colores fijos para evitar el error 'nil'
-
-    s.mywibox = awful.wibar({
-        position = "top",
-        screen   = s,
-        height   = 28,
-        bg       = beautiful.bg_normal,
-        fg       = "#cdd6f4",
-        shape    = function(cr, w, h)
-            gears.shape.rounded_rect(cr, w, h, 0)
-        end,
+    s.mywibox = wibox({
+        screen  = s,
+        x       = s.geometry.x + bar_margin,
+        y       = s.geometry.y + bar_margin,
+        width   = s.geometry.width - bar_margin * 2,
+        height  = bar_height,
+        bg      = "#00000000",
+        visible = true,
+        ontop   = true,
+        type    = "dock",
     })
 
--- Volume
-
-
-    -- 2. LUEGO LE PONEMOS LOS WIDGETS
+    -- Reservar espacio para que las ventanas no queden debajo
+    s.mywibox:struts({ top = bar_height + bar_margin * 2 })
 
     s.mywibox:setup {
-
-    layout = wibox.layout.align.horizontal,
-
-    { -- Left widgets
-
-        layout = wibox.layout.fixed.horizontal,  
-
-        mylauncher,
-
-        s.mytaglist,
-
-        s.mypromptbox,
-
-    },
-
-    s.mytasklist, -- Middle widget
-
-    { -- Right widgets
-        layout = wibox.layout.fixed.horizontal,
-        wibox.container.margin(mytemp.widget, 6, 2),
-        wibox.container.margin(mycpu.widget, 2, 2),
-        wibox.container.margin(mymem.widget, 2, 6),
-        make_separator(),
-        wibox.container.margin(mybattery.widget, 2, 2),
-        wibox.container.margin(mynet.widget, 2, 6),
-        make_separator(),
-        wibox.widget.systray(),
-        wibox.container.margin(idle_warning_widget, 4, 4),
-        make_separator(),
-        mytextclock,
-        wibox.container.margin(s.mylayoutbox, 6, 6),
-    },
-
+        {
+            layout = wibox.layout.align.horizontal,
+            { -- Left widgets
+                layout = wibox.layout.fixed.horizontal,
+                mylauncher,
+                s.mytaglist,
+                s.mypromptbox,
+            },
+            s.mytasklist,
+            { -- Right widgets
+                layout = wibox.layout.fixed.horizontal,
+                wibox.container.margin(mytemp.widget, 6, 2),
+                wibox.container.margin(mycpu.widget, 2, 2),
+                wibox.container.margin(mymem.widget, 2, 6),
+                make_separator(),
+                wibox.container.margin(mybattery.widget, 2, 2),
+                wibox.container.margin(mynet.widget, 2, 6),
+                make_separator(),
+                wibox.container.margin(
+                    wibox.container.constraint(wibox.widget.systray(), "exact", nil, 20),
+                    6, 6, 6, 6),
+                wibox.container.margin(idle_warning_widget, 4, 4),
+                make_separator(),
+                mytextclock,
+                wibox.container.margin(s.mylayoutbox, 6, 6),
+            },
+        },
+        bg     = beautiful.bg_normal,
+        shape  = function(cr, w, h)
+            gears.shape.rounded_rect(cr, w, h, 10)
+        end,
+        widget = wibox.container.background,
     }
 
 
