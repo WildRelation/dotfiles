@@ -492,7 +492,15 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Each screen has its own tag table.
 
-    local names = { " term ", " web ", " code ", " univ ", " chat ", " files ", " media " }
+    local names = {
+        "\u{e795} ", -- terminal
+        "\u{f0ac} ", -- web/globe
+        "\u{e60c} ", -- code
+        "\u{f19d} ", -- university
+        "\u{f075} ", -- chat
+        "\u{f07b} ", -- files
+        "\u{f001} ", -- media
+    }
 
     local l = awful.layout.suit 
 
@@ -524,13 +532,23 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create a taglist widget
 
     s.mytaglist = awful.widget.taglist {
-
         screen  = s,
-
         filter  = awful.widget.taglist.filter.all,
-
-        buttons = taglist_buttons
-
+        buttons = taglist_buttons,
+        widget_template = {
+            {
+                {
+                    id     = "text_role",
+                    font   = "JetBrainsMono Nerd Font 13",
+                    widget = wibox.widget.textbox,
+                },
+                left   = 8,
+                right  = 8,
+                widget = wibox.container.margin,
+            },
+            id     = "background_role",
+            widget = wibox.container.background,
+        },
     }
 
 
