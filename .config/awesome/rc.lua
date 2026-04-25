@@ -76,7 +76,7 @@ local mymem = lain.widget.mem({
 
 -- Widget de batería
 local mybattery = lain.widget.bat({
-    timeout = 10,
+    timeout = 2,
     settings = function()
         -- Verificar que bat_now existe y tiene datos
         if not bat_now or not bat_now.perc then
@@ -93,22 +93,22 @@ local mybattery = lain.widget.bat({
             return
         end
         
-        local bat_icon  = ""
+        local bat_icon  = "\u{f240}" -- bat full
         local bat_color = "#cdd6f4"
 
         if bat_status == "Charging" or bat_status == "Full" then
-            bat_icon  = ""
+            bat_icon  = "\u{f0e7}" -- bolt
             bat_color = "#a6e3a1"
         elseif bat_p <= 20 then
-            bat_icon  = ""
+            bat_icon  = "\u{f244}" -- bat empty
             bat_color = "#f38ba8"
         elseif bat_p <= 50 then
-            bat_icon  = ""
+            bat_icon  = "\u{f242}" -- bat half
             bat_color = "#f9e2af"
         end
 
         widget:set_markup(string.format(
-            " <span color='%s'>%s %s%%</span> ",
+            " <span color='%s'>%s  %s%%</span> ",
             bat_color, bat_icon, bat_p
         ))
     end
@@ -493,13 +493,13 @@ awful.screen.connect_for_each_screen(function(s)
     -- Each screen has its own tag table.
 
     local names = {
-        "\u{e795} ", -- terminal
-        "\u{f0ac} ", -- web/globe
-        "\u{e60c} ", -- code
-        "\u{f19d} ", -- university
-        "\u{f075} ", -- chat
-        "\u{f07b} ", -- files
-        "\u{f001} ", -- media
+        "\u{f120} ", -- terminal (prompt)
+        "\u{f0c1} ", -- web (link)
+        "\u{f121} ", -- code (</>)
+        "\u{f02d} ", -- university (libro)
+        "\u{f27a} ", -- chat (burbuja outline)
+        "\u{f15b} ", -- files (archivo)
+        "\u{f028} ", -- media (volumen)
     }
 
     local l = awful.layout.suit 
@@ -566,8 +566,8 @@ awful.screen.connect_for_each_screen(function(s)
 
 
     -- Wibar flotante usando wibox directo
-    local bar_height = 36
-    local bar_margin = 8
+    local bar_height = 34
+    local bar_margin = 5
 
     s.mywibox = wibox({
         screen  = s,
@@ -939,7 +939,10 @@ awful.key({ modkey }, "p", function() menubar.show() end,
 
 -- Quake terminal
 awful.key({ }, "F12", function() quaketerminal:toggle() end,
-          {description = "quake terminal", group = "launcher"})
+          {description = "quake terminal", group = "launcher"}),
+
+awful.key({ modkey }, "b", function() awful.spawn(terminal .. " -e btop") end,
+          {description = "btop", group = "launcher"})
 
 ) -- ESTE CIERRA EL gears.table.join(globalkeys, ...)
 
