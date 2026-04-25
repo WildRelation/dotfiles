@@ -37,7 +37,12 @@ sudo pacman -S --needed --noconfirm \
     xorg-xsetroot \
     xorg-xinit \
     python \
-    curl
+    curl \
+    yazi \
+    zathura \
+    zathura-pdf-poppler \
+    zsh-syntax-highlighting \
+    xprintidle
 
 echo "==> Installing AUR packages (requires yay)..."
 if command -v yay &>/dev/null; then
@@ -90,6 +95,7 @@ link .config/gtk-3.0/settings.ini
 link .config/gtk-4.0/settings.ini
 link .icons/default/index.theme
 link .config/fsh/catppuccin.ini
+link .config/yazi/yazi.toml
 
 # Scripts ejecutables
 mkdir -p ~/.local/bin

@@ -860,10 +860,6 @@ awful.key({ }, "XF86MonBrightnessDown",
 ),
 
 
--- Lock Screen (Super + L)
-awful.key({ modkey }, "l", function ()
-    awful.spawn("betterlockscreen -l")
-end, {description = "Bloquear pantalla", group = "Sistema"}),
 
 
 awful.key({ modkey, "Shift" }, "p",
@@ -1093,27 +1089,18 @@ for i = 1, 7 do
 
                   {description = "move focused client to tag #"..i, group = "tag"}),
 
-        -- Toggle tag on focused client.
-
+        -- Move client to tag and follow it.
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
-
                   function ()
-
                       if client.focus then
-
                           local tag = client.focus.screen.tags[i]
-
                           if tag then
-
-                              client.focus:toggle_tag(tag)
-
+                              client.focus:move_to_tag(tag)
+                              tag:view_only()
                           end
-
                       end
-
                   end,
-
-                  {description = "toggle focused client on tag #" .. i, group = "tag"})
+                  {description = "move client to tag #"..i.. " and follow", group = "tag"})
 
     )
 
@@ -1296,22 +1283,21 @@ awful.rules.rules = {
 
 
 -- Regla mejorada para la universidad
-{ rule_any = { 
-    class = { 
-        "Zathura", 
-        "libreoffice", 
-        "libreoffice-writer", 
-        "libreoffice-calc", 
-        "libreoffice-impress", 
+{ rule_any = {
+    class = {
+        "libreoffice",
+        "libreoffice-writer",
+        "libreoffice-calc",
+        "libreoffice-impress",
         "LibreOffice",
-        "Soffice", -- A veces la clase interna es esta
+        "Soffice",
     },
     instance = {
         "libreoffice",
         "soffice",
     }
-  }, 
-  properties = { screen = 1, tag = " 4:univ " } 
+  },
+  properties = { screen = 1, tag = " 4:univ " }
 },
 
 { rule = { class = "obsidian" },
@@ -1346,6 +1332,10 @@ awful.rules.rules = {
 },
 
 
+
+    -- Zathura abre en el tag actual
+    { rule = { class = "Zathura" },
+      properties = { switchtotag = false } },
 
     -- Add titlebars to normal clients and dialogs
 
@@ -1469,15 +1459,18 @@ end)
 
 -- Enable sloppy focus, so that focus follows mouse.
 
---client.connect_signal("mouse::enter", function(c)
+client.connect_signal("mouse::enter", function(c)
 
---    c:emit_signal("request::activate", "mouse_enter", {raise = false})
+    c:emit_signal("request::activate", "mouse_enter", {raise = false})
 
---end)
+end)
 
 
 
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+client.connect_signal("focus", function(c)
+    c.border_color = beautiful.border_focus
+    mouse.coords({ x = c.x + c.width / 2, y = c.y + c.height / 2 })
+end)
 
 beautiful.useless_gap = 5
 
