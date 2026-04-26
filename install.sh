@@ -13,7 +13,6 @@ sudo pacman -S --needed --noconfirm \
     zsh zsh-autosuggestions \
     kitty \
     awesome \
-    picom \
     rofi \
     conky \
     starship \
@@ -47,6 +46,7 @@ sudo pacman -S --needed --noconfirm \
 echo "==> Installing AUR packages (requires yay)..."
 if command -v yay &>/dev/null; then
     yay -S --needed --noconfirm \
+        picom-ftlabs-git \
         fast-syntax-highlighting \
         lain-git \
         catppuccin-gtk-theme-mocha \
