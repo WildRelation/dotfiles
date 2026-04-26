@@ -137,8 +137,8 @@ gears.timer {
                 status = status:gsub("%s+", "")
                 if perc <= 15 and status ~= "Charging" and not bat_notif_sent then
                     naughty.notify({
-                        title   = "Batería baja",
-                        text    = "Queda " .. perc .. "% — conecta el cargador",
+                        title   = "Low battery",
+                        text    = perc .. "% remaining — plug in your charger",
                         timeout = 10,
                         preset  = naughty.config.presets.critical,
                     })
@@ -623,6 +623,26 @@ awful.screen.connect_for_each_screen(function(s)
 
 end)
 
+-- Ocultar barra en fullscreen
+local function update_wibar(s)
+    local fullscreen = false
+    for _, c in ipairs(s.clients) do
+        if c.fullscreen then
+            fullscreen = true
+            break
+        end
+    end
+    s.mywibox.visible = not fullscreen
+end
+
+client.connect_signal("property::fullscreen", function(c)
+    update_wibar(c.screen)
+end)
+
+client.connect_signal("unmanage", function(c)
+    update_wibar(c.screen)
+end)
+
 -- }}}
 
 
@@ -842,15 +862,15 @@ end, {description = "portapapeles", group = "launcher"}),
 
 -- Menú de apagado (Super+Shift+E)
 awful.key({ modkey, "Shift" }, "e", function()
-    local options = "Apagar\nReiniciar\nSuspender\nCerrar sesión"
+    local options = "Shutdown\nRestart\nSuspend\nLog out"
     awful.spawn.easy_async_with_shell(
-        "echo -e '" .. options .. "' | rofi -dmenu -p ' Sistema' -theme ~/.config/rofi/catppuccin-mocha.rasi",
+        "echo -e '" .. options .. "' | rofi -dmenu -p ' System' -theme ~/.config/rofi/catppuccin-mocha.rasi",
         function(choice)
             choice = choice:gsub("%s+", "")
-            if     choice == "Apagar"        then awful.spawn("systemctl poweroff")
-            elseif choice == "Reiniciar"     then awful.spawn("systemctl reboot")
-            elseif choice == "Suspender"     then awful.spawn("systemctl suspend")
-            elseif choice == "Cerrarsesión"  then awesome.quit()
+            if     choice == "Shutdown" then awful.spawn("systemctl poweroff")
+            elseif choice == "Restart"  then awful.spawn("systemctl reboot")
+            elseif choice == "Suspend"  then awful.spawn("systemctl suspend")
+            elseif choice == "Logout"   then awesome.quit()
             end
         end
     )
@@ -1177,6 +1197,10 @@ naughty.config.defaults.border_color = "#89b4fa"
 naughty.config.presets.low.bg           = "#1e1e2eee"
 naughty.config.presets.low.fg           = "#cdd6f4"
 naughty.config.presets.low.border_color = "#a6e3a1"
+
+naughty.config.presets.normal.bg           = "#1e1e2eee"
+naughty.config.presets.normal.fg           = "#cdd6f4"
+naughty.config.presets.normal.border_color = "#89b4fa"
 
 naughty.config.presets.critical.bg           = "#1e1e2eee"
 naughty.config.presets.critical.fg           = "#f38ba8"
